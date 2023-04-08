@@ -1,31 +1,29 @@
-import 'package:bloc_tutorial/bloc_app/bloc/counter_bloc.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:bloc_tutorial/cubit_app/cubit/counter_cubit.dart';
+import 'package:bloc_tutorial/cubit_app/ui/cubit_second_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../utility/util.dart';
-
-class MyBlocCounterPage extends StatefulWidget {
-  const MyBlocCounterPage({super.key, required this.title});
+class MyCubitCounterPage extends StatefulWidget {
+  const MyCubitCounterPage({super.key, required this.title});
 
   final String title;
 
   @override
-  State<MyBlocCounterPage> createState() => _MyBlocCounterPageState();
+  State<MyCubitCounterPage> createState() => _MyCubitCounterPageState();
 }
 
-class _MyBlocCounterPageState extends State<MyBlocCounterPage> {
-
+class _MyCubitCounterPageState extends State<MyCubitCounterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: usingBlocListener()
-    );
+        appBar: AppBar(
+          title: Text(widget.title),
+        ),
+        body: usingBlocConsumer()
+        //usingBlocListener(),
+        //usingBlocProvider(),
+        );
   }
-
 
   Widget usingBlocProvider() {
     return Center(
@@ -35,7 +33,7 @@ class _MyBlocCounterPageState extends State<MyBlocCounterPage> {
           const Text(
             'You have pushed the button this many times:',
           ),
-          BlocBuilder<CounterBloc, CounterBlocState>(
+          BlocBuilder<CounterCubit, CounterCubitState>(
             builder: (context, state) {
               if (state.counterValue < 0) {
                 return Text(
@@ -61,14 +59,14 @@ class _MyBlocCounterPageState extends State<MyBlocCounterPage> {
             children: [
               FloatingActionButton(
                 onPressed: () {
-                  BlocProvider.of<CounterBloc>(context).add(IncrementCounterEvent());
+                  BlocProvider.of<CounterCubit>(context).increment();
                 },
                 tooltip: 'Increment',
                 child: const Icon(Icons.add),
               ),
               FloatingActionButton(
                 onPressed: () {
-                  BlocProvider.of<CounterBloc>(context).add(DecrementCounterEvent());
+                  BlocProvider.of<CounterCubit>(context).decrement();
                 },
                 tooltip: 'Decrement',
                 child: const Icon(Icons.minimize),
@@ -79,7 +77,13 @@ class _MyBlocCounterPageState extends State<MyBlocCounterPage> {
             padding: const EdgeInsets.only(top: 20.0),
             child: ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed(MyUtil.FIRST_ROUTE);
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_) => BlocProvider.value(
+                        value: BlocProvider.of<CounterCubit>(context),
+                        child: MyCubitCounterSecondPage(
+                          title: 'Second screen Cubit',
+                        ),
+                      )));
                 },
                 child: Text("Second Screen")),
           )
@@ -88,21 +92,20 @@ class _MyBlocCounterPageState extends State<MyBlocCounterPage> {
     );
   }
 
-
   /*
   A bloc provider can be triggered multiple times, so if we use this to show
   a snackbar it will show that many snackbars.
   So to provide Navigator Route, Toast, SnackBar etc we should use Bloc Listener
    */
   Widget usingBlocListener() {
-    return BlocListener<CounterBloc, CounterBlocState>(
+    return BlocListener<CounterCubit, CounterCubitState>(
       listener: (context1, state) {
-        if (state is CounterBlocIncrementState) {
+        if (state is CounterCubitIncrementState) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text("incremented"),
             duration: Duration(microseconds: 1000),
           ));
-        } else if (state is CounterBlocDecrementState) {
+        } else if (state is CounterCubitDecrementState) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text("decremented"),
             duration: Duration(microseconds: 1000),
@@ -116,7 +119,7 @@ class _MyBlocCounterPageState extends State<MyBlocCounterPage> {
             const Text(
               'You have pushed the button this many times:',
             ),
-            BlocBuilder<CounterBloc, CounterBlocState>(
+            BlocBuilder<CounterCubit, CounterCubitState>(
               builder: (context, state) {
                 if (state.counterValue < 0) {
                   return Text(
@@ -141,17 +144,15 @@ class _MyBlocCounterPageState extends State<MyBlocCounterPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 FloatingActionButton(
-                  heroTag: null,
                   onPressed: () {
-                    BlocProvider.of<CounterBloc>(context).add(IncrementCounterEvent());
+                    BlocProvider.of<CounterCubit>(context).increment();
                   },
                   tooltip: 'Increment',
                   child: const Icon(Icons.add),
                 ),
                 FloatingActionButton(
-                  heroTag: null,
                   onPressed: () {
-                    BlocProvider.of<CounterBloc>(context).add(DecrementCounterEvent());
+                    BlocProvider.of<CounterCubit>(context).decrement();
                   },
                   tooltip: 'Decrement',
                   child: const Icon(Icons.minimize),
@@ -162,7 +163,13 @@ class _MyBlocCounterPageState extends State<MyBlocCounterPage> {
               padding: const EdgeInsets.only(top: 20.0),
               child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context,MyUtil.FIRST_ROUTE);
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (_) => BlocProvider.value(
+                          value: BlocProvider.of<CounterCubit>(context),
+                          child: MyCubitCounterSecondPage(
+                            title: 'Second screen Cubit',
+                          ),
+                        )));
                   },
                   child: Text("Second Screen")),
             )
@@ -185,14 +192,14 @@ class _MyBlocCounterPageState extends State<MyBlocCounterPage> {
           const Text(
             'You have pushed the button this many times:',
           ),
-          BlocConsumer<CounterBloc, CounterBlocState>(
-            listener: (context,state){
-              if (state is CounterBlocIncrementState) {
+          BlocConsumer<CounterCubit, CounterCubitState>(
+            listener: (context, state) {
+              if (state is CounterCubitIncrementState) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text("incremented"),
                   duration: Duration(microseconds: 1000),
                 ));
-              } else if (state is CounterBlocDecrementState) {
+              } else if (state is CounterCubitDecrementState) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text("decremented"),
                   duration: Duration(microseconds: 1000),
@@ -224,14 +231,14 @@ class _MyBlocCounterPageState extends State<MyBlocCounterPage> {
             children: [
               FloatingActionButton(
                 onPressed: () {
-                  BlocProvider.of<CounterBloc>(context).add(IncrementCounterEvent());
+                  BlocProvider.of<CounterCubit>(context).increment();
                 },
                 tooltip: 'Increment',
                 child: const Icon(Icons.add),
               ),
               FloatingActionButton(
                 onPressed: () {
-                  BlocProvider.of<CounterBloc>(context).add(DecrementCounterEvent());
+                  BlocProvider.of<CounterCubit>(context).decrement();
                 },
                 tooltip: 'Decrement',
                 child: const Icon(Icons.minimize),
@@ -242,7 +249,13 @@ class _MyBlocCounterPageState extends State<MyBlocCounterPage> {
             padding: const EdgeInsets.only(top: 20.0),
             child: ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed(MyUtil.FIRST_ROUTE);
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_) => BlocProvider.value(
+                            value: BlocProvider.of<CounterCubit>(context),
+                            child: MyCubitCounterSecondPage(
+                              title: 'Second screen Cubit',
+                            ),
+                          )));
                 },
                 child: Text("Second Screen")),
           )
@@ -251,3 +264,8 @@ class _MyBlocCounterPageState extends State<MyBlocCounterPage> {
     );
   }
 }
+/*
+BlocProvider.value =>
+  value : This will provide the same instance of bloc to next screen
+  Use the context carefully, don't use MaterialPageRoute builder context
+ */

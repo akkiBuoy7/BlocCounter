@@ -5,24 +5,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../utility/util.dart';
 
-class MyBlocCounterPage extends StatefulWidget {
-  const MyBlocCounterPage({super.key, required this.title});
+class MyBlocThirdCounterPage extends StatefulWidget {
+  const MyBlocThirdCounterPage({super.key, required this.title});
 
   final String title;
 
   @override
-  State<MyBlocCounterPage> createState() => _MyBlocCounterPageState();
+  State<MyBlocThirdCounterPage> createState() => _MyBlocThirdCounterPageState();
 }
 
-class _MyBlocCounterPageState extends State<MyBlocCounterPage> {
+class _MyBlocThirdCounterPageState extends State<MyBlocThirdCounterPage> {
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: usingBlocListener()
+        appBar: AppBar(
+          title: Text(widget.title),
+          backgroundColor: Colors.red,
+        ),
+        body: usingBlocListener()
     );
   }
 
@@ -75,14 +76,6 @@ class _MyBlocCounterPageState extends State<MyBlocCounterPage> {
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20.0),
-            child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed(MyUtil.FIRST_ROUTE);
-                },
-                child: Text("Second Screen")),
-          )
         ],
       ),
     );
@@ -158,14 +151,6 @@ class _MyBlocCounterPageState extends State<MyBlocCounterPage> {
                 ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20.0),
-              child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context,MyUtil.FIRST_ROUTE);
-                  },
-                  child: Text("Second Screen")),
-            )
           ],
         ),
       ),
@@ -223,6 +208,7 @@ class _MyBlocCounterPageState extends State<MyBlocCounterPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               FloatingActionButton(
+                heroTag: null,
                 onPressed: () {
                   BlocProvider.of<CounterBloc>(context).add(IncrementCounterEvent());
                 },
@@ -230,6 +216,7 @@ class _MyBlocCounterPageState extends State<MyBlocCounterPage> {
                 child: const Icon(Icons.add),
               ),
               FloatingActionButton(
+                heroTag: null,
                 onPressed: () {
                   BlocProvider.of<CounterBloc>(context).add(DecrementCounterEvent());
                 },
@@ -238,14 +225,6 @@ class _MyBlocCounterPageState extends State<MyBlocCounterPage> {
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20.0),
-            child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed(MyUtil.FIRST_ROUTE);
-                },
-                child: Text("Second Screen")),
-          )
         ],
       ),
     );

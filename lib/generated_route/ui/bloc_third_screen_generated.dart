@@ -1,31 +1,28 @@
 import 'package:bloc_tutorial/bloc_app/bloc/counter_bloc.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../utility/util.dart';
-
-class MyBlocCounterPage extends StatefulWidget {
-  const MyBlocCounterPage({super.key, required this.title});
+class MyBlocThirdCounterGeneratedPage extends StatefulWidget {
+  const MyBlocThirdCounterGeneratedPage({super.key, required this.title});
 
   final String title;
 
   @override
-  State<MyBlocCounterPage> createState() => _MyBlocCounterPageState();
+  State<MyBlocThirdCounterGeneratedPage> createState() =>
+      _MyBlocThirdCounterGeneratedPageState();
 }
 
-class _MyBlocCounterPageState extends State<MyBlocCounterPage> {
-
+class _MyBlocThirdCounterGeneratedPageState
+    extends State<MyBlocThirdCounterGeneratedPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: usingBlocListener()
-    );
+        appBar: AppBar(
+          title: Text(widget.title),
+          backgroundColor: Colors.red,
+        ),
+        body: usingBlocListener());
   }
-
 
   Widget usingBlocProvider() {
     return Center(
@@ -61,33 +58,26 @@ class _MyBlocCounterPageState extends State<MyBlocCounterPage> {
             children: [
               FloatingActionButton(
                 onPressed: () {
-                  BlocProvider.of<CounterBloc>(context).add(IncrementCounterEvent());
+                  BlocProvider.of<CounterBloc>(context)
+                      .add(IncrementCounterEvent());
                 },
                 tooltip: 'Increment',
                 child: const Icon(Icons.add),
               ),
               FloatingActionButton(
                 onPressed: () {
-                  BlocProvider.of<CounterBloc>(context).add(DecrementCounterEvent());
+                  BlocProvider.of<CounterBloc>(context)
+                      .add(DecrementCounterEvent());
                 },
                 tooltip: 'Decrement',
                 child: const Icon(Icons.minimize),
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20.0),
-            child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed(MyUtil.FIRST_ROUTE);
-                },
-                child: Text("Second Screen")),
-          )
         ],
       ),
     );
   }
-
 
   /*
   A bloc provider can be triggered multiple times, so if we use this to show
@@ -143,7 +133,8 @@ class _MyBlocCounterPageState extends State<MyBlocCounterPage> {
                 FloatingActionButton(
                   heroTag: null,
                   onPressed: () {
-                    BlocProvider.of<CounterBloc>(context).add(IncrementCounterEvent());
+                    BlocProvider.of<CounterBloc>(context)
+                        .add(IncrementCounterEvent());
                   },
                   tooltip: 'Increment',
                   child: const Icon(Icons.add),
@@ -151,21 +142,14 @@ class _MyBlocCounterPageState extends State<MyBlocCounterPage> {
                 FloatingActionButton(
                   heroTag: null,
                   onPressed: () {
-                    BlocProvider.of<CounterBloc>(context).add(DecrementCounterEvent());
+                    BlocProvider.of<CounterBloc>(context)
+                        .add(DecrementCounterEvent());
                   },
                   tooltip: 'Decrement',
                   child: const Icon(Icons.minimize),
                 ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20.0),
-              child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context,MyUtil.FIRST_ROUTE);
-                  },
-                  child: Text("Second Screen")),
-            )
           ],
         ),
       ),
@@ -186,7 +170,7 @@ class _MyBlocCounterPageState extends State<MyBlocCounterPage> {
             'You have pushed the button this many times:',
           ),
           BlocConsumer<CounterBloc, CounterBlocState>(
-            listener: (context,state){
+            listener: (context, state) {
               if (state is CounterBlocIncrementState) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text("incremented"),
@@ -223,29 +207,25 @@ class _MyBlocCounterPageState extends State<MyBlocCounterPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               FloatingActionButton(
+                heroTag: null,
                 onPressed: () {
-                  BlocProvider.of<CounterBloc>(context).add(IncrementCounterEvent());
+                  BlocProvider.of<CounterBloc>(context)
+                      .add(IncrementCounterEvent());
                 },
                 tooltip: 'Increment',
                 child: const Icon(Icons.add),
               ),
               FloatingActionButton(
+                heroTag: null,
                 onPressed: () {
-                  BlocProvider.of<CounterBloc>(context).add(DecrementCounterEvent());
+                  BlocProvider.of<CounterBloc>(context)
+                      .add(DecrementCounterEvent());
                 },
                 tooltip: 'Decrement',
                 child: const Icon(Icons.minimize),
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20.0),
-            child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed(MyUtil.FIRST_ROUTE);
-                },
-                child: Text("Second Screen")),
-          )
         ],
       ),
     );
