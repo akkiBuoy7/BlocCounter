@@ -25,11 +25,11 @@ class _BlocMethodsHomePageState extends State<BlocMethodsHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: communicateUsingListener(),
+      body: screenBlocs(),
     );
   }
 
-  Widget communicateUsingListener() {
+  Widget screenBlocs() {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
