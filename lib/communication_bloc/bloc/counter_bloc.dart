@@ -17,7 +17,7 @@ class CounterBlocCommunication extends Bloc<CounterEvent, CounterBlocState> {
 
   CounterBlocCommunication(this.internetBloc) : super(CounterBlocInitialState(counterValue1: 0)) {
 
-    monitorCounter();
+    //monitorCounter();
 
     on<IncrementCounterEvent>((event, emit) {
       emit(CounterBlocIncrementState(counterValue1: state.counterValue+1)) ;

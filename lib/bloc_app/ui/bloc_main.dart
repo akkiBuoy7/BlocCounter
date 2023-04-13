@@ -69,5 +69,7 @@ class _MyAppState extends State<MyApp> {
 
 /*
 BlocProvider.value() => Uses a single bloc instance across multiple screens
+Thus same bloc state of Counter Bloc will be shared across 3 screens
 BlocProvider => Creates Multiple Instances for each screen
+Thus different instances of Counter bloc will be shared
  */

@@ -26,7 +26,7 @@ class _BlocCommunicationHomePageState
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: communicateUsingSubscription(),
+      body: communicateUsingListener(),
     );
   }
 
@@ -40,10 +40,10 @@ class _BlocCommunicationHomePageState
         listener: (context, state) {
           if (state is InternetConnected &&
               state.connectionType == ConnectivityType.WIFI) {
-            BlocProvider.of<InternetBlocCommunication>(context). add(InternetConnectedEvent(ConnectivityType.WIFI));
+            BlocProvider.of<CounterBlocCommunication>(context). add(IncrementCounterEvent());
           } else if (state is InternetConnected &&
               state.connectionType == ConnectivityType.MOBILE) {
-            BlocProvider.of<InternetBlocCommunication>(context). add(InternetConnectedEvent(ConnectivityType.MOBILE));
+            BlocProvider.of<CounterBlocCommunication>(context). add(DecrementCounterEvent());
           }
         },
         child: Column(

@@ -28,4 +28,7 @@ class MyApp extends StatelessWidget {
 /*
  If using Anonymous routing then need to wrap home screen with BlocProvider
  Next screens can be provided with BlocProvider.value while routing
+
+ Using CounterCubit for home screen only but will access it in all other screens in the same state
+ while routing
  */

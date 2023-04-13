@@ -1,0 +1,4 @@
+enum MethodConnectivityType{
+  WIFI,
+  MOBILE
+}
